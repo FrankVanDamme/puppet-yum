@@ -13,6 +13,6 @@ class yum::repo::southbridge (
     baseurl  => $baseurl,
     enabled  => 1,
     gpgcheck => 0,
-    priority => 90,
+    priority => 10,
   }
 }
