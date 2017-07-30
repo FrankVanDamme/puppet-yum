@@ -35,6 +35,7 @@ class yum::defaults ( ) inherits yum::params {
   if 'mysql_community' in $yum::extrarepo { include ::yum::repo::mysql_community }
   if 'dell_omsa' in $yum::extrarepo { include ::yum::repo::dell_omsa }
   if 'docker' in $yum::extrarepo { include ::yum::repo::docker }
+  if 'rpmfusion' in $yum::extrarepo { include ::yum::repo::rpmfusion }
 
   if $yum::bool_defaultrepo {
     case $::operatingsystem {
