@@ -9,7 +9,7 @@ class yum::repo::percona {
     enabled        => 1,
     gpgcheck       => 1,
     failovermethod => 'priority',
-    gpgkey         => 'http://www.percona.com/downloads/RPM-GPG-KEY-percona',
+    gpgkey         => 'https://repo.percona.com/yum/PERCONA-PACKAGING-KEY',
     priority       => 1,
   }
 }
