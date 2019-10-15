@@ -19,9 +19,15 @@ class yum::defaults ( ) inherits yum::params {
   if 'remi_php72' in $yum::extrarepo { include ::yum::repo::remi_php72 }
   if 'tmz' in $yum::extrarepo and $osver[0] != '4' { include ::yum::repo::tmz }
   if 'webtatic' in $yum::extrarepo { include ::yum::repo::webtatic }
-  if 'puppetlabs' in $yum::extrarepo and $osver[0] != '4' { include ::yum::repo::puppetlabs }
-  if 'puppetdevel' in $yum::extrarepo and $osver[0] != '4' { include ::yum::repo::puppetdevel }
-  if 'puppetlabs_collections' in $yum::extrarepo { include ::yum::repo::puppetlabs_collections }
+  if 'puppet5' in $yum::extrarepo and $osver[0] != '4' { 
+      include ::yum::repo::puppet5 
+  } elsif 'puppet6' in $yum::extrarepo and $osver[0] != '4' { include ::yum::repo::puppet6 } 
+  elsif 'puppet' in $yum::extrarepo and $osver[0] != '4' { include ::yum::repo::puppet } 
+  else {
+      if 'puppetlabs' in $yum::extrarepo and $osver[0] != '4' { include ::yum::repo::puppetlabs }
+      if 'puppetdevel' in $yum::extrarepo and $osver[0] != '4' { include ::yum::repo::puppetdevel }
+      if 'puppetlabs_collections' in $yum::extrarepo { include ::yum::repo::puppetlabs_collections }
+  }
   if 'nginx' in $yum::extrarepo and $osver[0] != '4' { include ::yum::repo::nginx }
   if 'mongodb' in $yum::extrarepo and $osver[0] != '4' { include ::yum::repo::mongodb }
   if 'repoforge' in $yum::extrarepo { include ::yum::repo::repoforge }
