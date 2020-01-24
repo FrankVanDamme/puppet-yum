@@ -21,7 +21,7 @@ class yum::repo::puppetlabs_collections (
     default => $baseurl,
   }
 
-  yum::managed_yumrepo { 'puppetlabs':
+  yum::managed_yumrepo { "puppetlabs-pc${collection}":
     descr          => 'Puppet Labs Puppet Collections',
     baseurl        => $real_baseurl,
     enabled        => 1,
