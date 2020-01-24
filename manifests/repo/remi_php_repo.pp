@@ -1,8 +1,8 @@
-# = Class: yum::repo::remi
 #
-# This class installs the remi repo
+# Defined type for easily managing a remi repository for a specific PHP version
 #
-class yum::repo::remi (
+define yum::repo::remi_php_repo (
+	Pattern[/\A[57]\.\d\z/] $version = $name,
 	Optional[String] $mirror_url = undef
 ) {
 	$releasever = $::operatingsystem ? {
@@ -20,11 +20,13 @@ class yum::repo::remi (
 		default       => 'Enterprise Linux',
 	}
 
+	$version_short = regsubst($version, '\.', '')
+
 	if ($mirror_url) {
 		$use_baseurl    = $mirror_url
 		$use_mirrorlist = 'absent'
 	} else {
-		$mirror_list_base_url = "http://rpms.remirepo.net/${os}/${releasever}/remi"
+		$mirror_list_base_url = "http://rpms.remirepo.net/${os}/${releasever}/php${version_short}"
 		$use_baseurl          = 'absent'
 		$use_mirrorlist       = $facts['os']['release']['major'] ? {
 			'8'     => "${mirror_list_base_url}/\$basearch/mirror",
@@ -49,8 +51,8 @@ class yum::repo::remi (
 		}
 	}
 
-	yum::managed_yumrepo { 'remi':
-		descr      => "Remi's RPM repository for ${osname} \$releasever - \$basearch",
+	yum::managed_yumrepo { "remi-php${version_short}":
+		descr      => "Remi's PHP ${version} RPM repository for ${osname} \$releasever - \$basearch",
 		baseurl    => $use_baseurl,
 		mirrorlist => $use_mirrorlist,
 		enabled    => 1,

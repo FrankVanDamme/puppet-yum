@@ -2,28 +2,10 @@
 #
 # This class installs the remi-php55 repo
 #
-class yum::repo::remi_php55 {
-  $releasever = $::operatingsystem ? {
-    /(?i:Amazon)/ => '6',
-    default       => '$releasever',  # Yum var
-  }
-
-  $os = $::operatingsystem ? {
-    /(?i:Fedora)/ => 'fedora',
-    default       => 'enterprise',
-  }
-
-  $osname = $::operatingsystem ? {
-    /(?i:Fedora)/ => 'Fedora',
-    default       => 'Enterprise Linux',
-  }
-
-  yum::managed_yumrepo { 'remi-php55':
-    descr      => "Remi's PHP 5.5 RPM repository for ${osname} \$releasever - \$basearch",
-    mirrorlist => "http://rpms.remirepo.net/${os}/${releasever}/php55/mirror",
-    enabled    => 1,
-    gpgcheck   => 1,
-    gpgkey     => 'http://rpms.remirepo.net/RPM-GPG-KEY-remi',
-    priority   => 1,
-  }
+class yum::repo::remi_php55 (
+	Optional[String] $mirror_url = undef
+) {
+	yum::repo::remi_php_repo { '5.5':
+		mirror_url => $mirror_url
+	}
 }

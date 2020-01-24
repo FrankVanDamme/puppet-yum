@@ -3,9 +3,10 @@
 # This class installs the puppetlabs-collections repo
 #
 class yum::repo::puppetlabs_collections (
-  $baseurl    = '',
-  $collection = '1',
-  $priority   = 99,
+  $host_server = 'yum.puppetlabs.com',
+  $baseurl     = '',
+  $collection  = '1',
+  $priority    = 99,
 ) {
   $osver = $::operatingsystem ? {
     'XenServer' => [ '5' ],
@@ -17,7 +18,7 @@ class yum::repo::puppetlabs_collections (
   }
 
   $real_baseurl = $baseurl ? {
-    ''      => "http://yum.puppetlabs.com/el/${release}/PC${collection}/\$basearch",
+    ''      => "http://${host_server}/el/${release}/PC${collection}/\$basearch",
     default => $baseurl,
   }
 

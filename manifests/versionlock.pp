@@ -1,24 +1,30 @@
 # = Define yum::versionlock
 #
 define yum::versionlock (
-  $ensure = present,
-  $path   = '/etc/yum/pluginconf.d/versionlock.list',
+	Enum['present','absent'] $ensure = 'present',
+	Optional[String] $package = undef
 ) {
+	include ::yum::plugin::versionlock
 
-  include ::yum::plugin::versionlock
+	if ($package) {
+		$use_package_name = $package
+	} else {
+		$use_package_name = $name
+	}
 
-  if ($name =~ /^[0-9]+:.+\*$/) {
-    $manage_name = $name
-  } elsif ($name =~ /^[0-9]+:.+-.+-.+\./) {
-    $manage_name= $name
-  } else {
-    fail('Package name must be formated as \'EPOCH:NAME-VERSION-RELEASE.ARCH\'')
-  }
+	$locked_check = "yum -C versionlock list | grep -q ${use_package_name}"
 
-  file_line { "versionlock.list-${name}":
-    ensure  => $ensure,
-    line    => $manage_name,
-    path    => $path,
-    require => Class['yum::plugin::versionlock'],
-  }
+	if ($ensure == 'present') {
+		exec { "add-yum-lock-${name}":
+			command => "yum -C versionlock add ${use_package_name}",
+			unless  => $locked_check,
+			require => Class['yum::plugin::versionlock'],
+		}
+	} else {
+		exec { "remove-yum-lock-${name}":
+			command => "yum -C versionlock delete ${use_package_name}",
+			onlyif  => $locked_check,
+			require => Class['yum::plugin::versionlock'],
+		}
+	}
 }

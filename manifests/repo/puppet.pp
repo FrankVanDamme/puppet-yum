@@ -6,6 +6,7 @@
 ##       and the GPG key is "RPM-GPG-KEY-puppet"
 #
 class yum::repo::puppet (
+  $host_server          = 'yum.puppetlabs.com',
   $baseurl_products     = '',
   $baseurl_dependencies = '',
 ) {
@@ -19,12 +20,12 @@ class yum::repo::puppet (
   }
 
   $real_baseurl_products = $baseurl_products ? {
-    ''      => "http://yum.puppetlabs.com/el/${release}/products/\$basearch",
+    ''      => "http://${host_server}/el/${release}/products/\$basearch",
     default => $baseurl_products,
   }
 
   $real_baseurl_dependencies = $baseurl_dependencies ? {
-    ''      => "http://yum.puppetlabs.com/el/${release}/dependencies/\$basearch",
+    ''      => "http://${host_server}/el/${release}/dependencies/\$basearch",
     default => $baseurl_dependencies,
   }
 
