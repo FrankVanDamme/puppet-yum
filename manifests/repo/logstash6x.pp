@@ -3,15 +3,9 @@
 # This class installs the logstash6x repo
 #
 class yum::repo::logstash6x (
-  $baseurl = 'https://artifacts.elastic.co/packages/6.x/yum',
+	Optional[Stdlib::HTTPUrl] $mirror_url = undef
 ) {
-
-  yum::managed_yumrepo { 'logstash-6.x':
-    descr         => 'Elastic repository for 6.x packages',
-    baseurl       => $baseurl,
-    enabled       => 1,
-    gpgcheck      => 1,
-    gpgkey        => 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
-  }
-
+	yum::repo::logstash_repo { '6':
+		mirror_url => $mirror_url
+	}
 }

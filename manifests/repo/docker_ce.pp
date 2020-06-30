@@ -23,7 +23,7 @@ class yum::repo::docker_ce (
     )
     $baseurl_ensured = $baseurl
   } else {
-    $baseurl_ensured = "https://download.docker.com/linux/${os_release}/\$releasever"
+    $baseurl_ensured = "https://download.docker.com/linux/${os_release}/7"
   }
 
   yum::managed_yumrepo { 'docker-ce':

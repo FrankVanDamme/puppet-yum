@@ -120,6 +120,12 @@ define yum::managed_yumrepo (
 		$use_priority = undef
 	}
 
+	if ($repo_gpgcheck =~ Yum::Boolean::True) {
+		package { 'pygpgme':
+			ensure => 'installed'
+		}
+	}
+
 	if (! defined(Yumrepo[$name])) {
 		yumrepo { $name:
 			ensure          => $ensure,

@@ -3,15 +3,9 @@
 # This class installs the logstash5x repo
 #
 class yum::repo::logstash5x (
-  $baseurl = 'https://artifacts.elastic.co/packages/5.x/yum',
+	Optional[Stdlib::HTTPUrl] $mirror_url = undef
 ) {
-
-  yum::managed_yumrepo { 'logstash-5.x':
-    descr         => 'Elastic repository for 5.x packages',
-    baseurl       => $baseurl,
-    enabled       => 1,
-    gpgcheck      => 1,
-    gpgkey        => 'https://artifacts.elastic.co/GPG-KEY-elasticsearch'
-  }
-
+	yum::repo::logstash_repo { '5':
+		mirror_url => $mirror_url
+	}
 }

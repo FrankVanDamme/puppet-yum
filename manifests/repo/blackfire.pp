@@ -9,7 +9,7 @@ class yum::repo::blackfire {
     enabled       => 1,
 	repo_gpgcheck => 1,
     gpgcheck      => 0,
-    gpgkey        => 'https://packagecloud.io/gpg.key',
+    gpgkey        => 'https://packages.blackfire.io/gpg.key',
     priority      => 1,
 	sslverify     => 1,
 	sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt'
