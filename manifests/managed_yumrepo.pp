@@ -1,5 +1,11 @@
 # = Define yum::managed_yumrepo
 #
+# == Parameters
+#
+# [*sslcacert*]
+#   passed to yumrepo; the validation pattern validates Unix paths excluding 
+#   the root directory "/"
+
 define yum::managed_yumrepo (
 	Enum['present','absent'] $ensure = 'present',
 	Variant[Enum['absent'],String[1]] $descr = 'absent',
@@ -22,9 +28,9 @@ define yum::managed_yumrepo (
 	Variant[Enum['absent','never'],Pattern[/^[0-9]+[dhm]$/],Integer[0]] $metadata_expire = 'absent',
 	Variant[Enum['absent'],String[1]] $include = 'absent',
 	Variant[Enum['absent'],Yum::Boolean] $repo_gpgcheck = 'absent',
-	Variant[Enum['absent'],Pattern[$re::path]] $sslcacert = 'absent',
-	Variant[Enum['absent'],Pattern[$re::path]] $sslclientcert = 'absent',
-	Variant[Enum['absent'],Pattern[$re::path]] $sslclientkey = 'absent',
+	Variant[Enum['absent'],Pattern[/^\/([\w\.%-]+)(\/[\w\.%-]+)*\z/]] $sslcacert = 'absent',
+	Variant[Enum['absent'],Pattern[/^\/([\w\.%-]+)(\/[\w\.%-]+)*\z/]] $sslclientcert = 'absent',
+	Variant[Enum['absent'],Pattern[/^\/([\w\.%-]+)(\/[\w\.%-]+)*\z/]] $sslclientkey = 'absent',
 	Variant[Enum['absent'],Yum::Boolean] $sslverify = 'absent'
 ) {
 
