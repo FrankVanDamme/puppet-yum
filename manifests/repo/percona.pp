@@ -3,7 +3,8 @@
 # This class installs the Percona RPM Repository
 #
 class yum::repo::percona (
-	Optional[String] $mirror_url = undef
+	Optional[String] $mirror_url = undef,
+	Enum[0,1] $enabled = 1,
 ) {
 	$key_names = [ 'PERCONA-PACKAGING-KEY', 'RPM-GPG-KEY-percona' ]
 	if ($mirror_url) {
@@ -30,7 +31,7 @@ class yum::repo::percona (
 	yum::managed_yumrepo { 'percona':
 		descr          => 'Percona RPM Repository (http://www.percona.com/percona-lab.html)',
 		baseurl        => $use_url,
-		enabled        => 1,
+		enabled        => $enabled,
 		gpgcheck       => 1,
 		failovermethod => 'priority',
 		gpgkey_source  => $use_gpgsrc,
