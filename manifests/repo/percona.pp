@@ -4,7 +4,7 @@
 #
 class yum::repo::percona (
 	Optional[String] $mirror_url = undef,
-	Enum[0,1] $enabled = 1,
+	Integer[0,1] $enabled = 1,
 ) {
 	$key_names = [ 'PERCONA-PACKAGING-KEY', 'RPM-GPG-KEY-percona' ]
 	if ($mirror_url) {
