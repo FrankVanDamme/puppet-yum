@@ -4,7 +4,8 @@ class yum::prerequisites {
 
   require yum
 
-  if $yum::bool_priorities_plugin == true {
+  # RHEL 8 has incorporated the yum priorities plugin's functionality into DNF
+  if ( $yum::bool_priorities_plugin == true and $::lsbdistcodename != 'Ootpa' ){
     yum::plugin { 'priorities': }
   }
 #  yum::plugin { 'security': }

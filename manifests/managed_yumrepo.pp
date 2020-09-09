@@ -113,7 +113,8 @@ define yum::managed_yumrepo (
 		default => $gpgkey
 	}
 
-	if ($yum::priorities_plugin) {
+        # RHEL 8 has incorporated the yum priorities plugin's functionality into DNF
+	if ($yum::priorities_plugin or $::lsbdistcodename == 'Ootpa') {
 		$use_priority = $priority
 		$use_failover = $failovermethod
 	} else {
